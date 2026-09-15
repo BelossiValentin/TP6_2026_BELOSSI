@@ -9,11 +9,15 @@
 */
 
 
-#include "stm32f4xx.h"
+#include "App.h"
 			
 
 int main(void)
 {
+	App_Init();
 
-	for(;;);
+	while (1)
+	{
+		App_Process();
+	}
 }
