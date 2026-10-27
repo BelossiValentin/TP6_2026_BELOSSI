@@ -32,7 +32,7 @@
   *    function will do nothing and HSI still used as system clock source. User can 
   *    add some code to deal with this issue inside the SetSysClock() function.
   *
-  * 4. The default value of HSE crystal is set to 25MHz, refer to "HSE_VALUE" define
+  * 4. The HSE crystal of the kit is 8MHz, refer to "HSE_VALUE" define
   *    in "stm32f4xx.h" file. When HSE is used as system clock source, directly or
   *    through PLL, and you are using different crystal you have to adapt the HSE
   *    value to your own configuration.
@@ -54,9 +54,9 @@
   *-----------------------------------------------------------------------------
   *        APB2 Prescaler                         | 2
   *-----------------------------------------------------------------------------
-  *        HSE Frequency(Hz)                      | 25000000
+  *        HSE Frequency(Hz)                      | 8000000
   *-----------------------------------------------------------------------------
-  *        PLL_M                                  | 25
+  *        PLL_M                                  | 8
   *-----------------------------------------------------------------------------
   *        PLL_N                                  | 336
   *-----------------------------------------------------------------------------
@@ -348,9 +348,9 @@
      through STLINK MCO pin of STM32F103 microcontroller. The frequency cannot be changed
      and is fixed at 8 MHz. 
      Hardware configuration needed for Nucleo Board:
-     – SB54, SB55 OFF
-     – R35 removed
-     – SB16, SB50 ON */
+     â€“ SB54, SB55 OFF
+     â€“ R35 removed
+     â€“ SB16, SB50 ON */
 /* #define USE_HSE_BYPASS */
 
 #if defined(USE_HSE_BYPASS)     
@@ -546,8 +546,8 @@ void SystemInit(void)
   *             16 MHz) but the real value may vary depending on the variations
   *             in voltage and temperature.   
   *    
-  *         (**) HSE_VALUE is a constant defined in stm32f4xx.h file (default value
-  *              25 MHz), user has to ensure that HSE_VALUE is same as the real
+  *         (**) HSE_VALUE is a constant defined in stm32f4xx.h file (configured at
+  *              8 MHz for this kit), user has to ensure that HSE_VALUE is same as the real
   *              frequency of the crystal used. Otherwise, this function may
   *              have wrong result.
   *                
@@ -757,7 +757,7 @@ static void SetSysClock(void)
     RCC->CFGR |= RCC_CFGR_SW_PLL;
 
     /* Wait till the main PLL is used as system clock source */
-    while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL);
+    while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL)
     {
     }
   }
